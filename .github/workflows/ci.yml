@@ -63,25 +63,11 @@ jobs:
       id: build
       run: |
         git config --global --add safe.directory $(pwd)
-        if ! qmk mass-compile -j $(nproc) $(qmk find -km vial | sed "s/:vial$/:${KEYMAP}/");
+        if ! qmk compile -kb israfel -km "${KEYMAP}";
           then
-          echo "::error::$(ls -1 .build/failed.log.* | wc -l) keymaps failed to build. See logs and/or job summary for details."
+          echo "::error::Failed to build israfel:${KEYMAP}"
           exit 1
         fi
-
-    - name: Dump failure logs
-      if: ${{ failure() && steps.build.conclusion == 'failure' }}
-      run: |
-        echo '### Failure logs' | tee -a "${GITHUB_STEP_SUMMARY}"
-
-        cd .build || exit 1
-        for log in failed.log.*; do
-          pretty_logname="$(echo "${log}" | sed "s/^failed\.log\.[0-9]\+\.// ; s/\.${KEYMAP}$//")"
-
-          printf '\n::group::%s\n%s\n::endgroup::\n' "${pretty_logname}" "$(sed "${REGEX_MAKE_OUTPUT}" < "${log}")"
-          printf '\n<details>\n<summary>%s</summary>\n\n```\n%s\n```\n\n</details>\n' \
-             "${pretty_logname}" "$(sed "${REGEX_MAKE_OUTPUT} ; ${REGEX_ANSI_COLOR}" < "${log}")" >> "${GITHUB_STEP_SUMMARY}"
-        done
 
   build-vial:
     name: Build Vial keymaps
@@ -121,22 +107,8 @@ jobs:
       id: build
       run: |
         git config --global --add safe.directory $(pwd)
-        if ! qmk mass-compile -km "${KEYMAP}" -j $(nproc);
+        if ! qmk compile -kb israfel -km "${KEYMAP}";
           then
-          echo "::error::$(ls -1 .build/failed.log.* | wc -l) keymaps failed to build. See logs and/or job summary for details."
+          echo "::error::Failed to build israfel:${KEYMAP}"
           exit 1
         fi
-
-    - name: Dump failure logs
-      if: ${{ failure() && steps.build.conclusion == 'failure' }}
-      run: |
-        echo '### Failure logs' | tee -a "${GITHUB_STEP_SUMMARY}"
-
-        cd .build || exit 1
-        for log in failed.log.*; do
-          pretty_logname="$(echo "${log}" | sed "s/^failed\.log\.[0-9]\+\.// ; s/\.${KEYMAP}$//")"
-
-          printf '\n::group::%s\n%s\n::endgroup::\n' "${pretty_logname}" "$(sed "${REGEX_MAKE_OUTPUT}" < "${log}")"
-          printf '\n<details>\n<summary>%s</summary>\n\n```\n%s\n```\n\n</details>\n' \
-            "${pretty_logname}" "$(sed "${REGEX_MAKE_OUTPUT} ; ${REGEX_ANSI_COLOR}" < "${log}")" >> "${GITHUB_STEP_SUMMARY}"
-        done
