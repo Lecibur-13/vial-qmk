@@ -2,7 +2,7 @@ name: Vial Build
 on: [push]
 jobs:
   build:
-    name: Build kbdcraft/israfel:vial
+    name: Build israfel:vial
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli@sha256:2dc05fc9f32efebd6b05c2b8676ee548358bc7e151e9dbf4dac6b6eed4513b07
     steps:
@@ -14,6 +14,6 @@ jobs:
     - name: Build
       run: |
         git config --global --add safe.directory $(pwd)
-        qmk compile -kb kbdcraft/israfel -km vial
+        qmk compile -kb israfel -km vial
 
         
