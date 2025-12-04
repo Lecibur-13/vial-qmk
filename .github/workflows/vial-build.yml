@@ -5,8 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: qmk/qmk_firmware@v0.2
+      with:
+        submodules: recursive
+    - uses: qmk/qmk_firmware@main
       with:
         command: compile
-        keyboard: israfel
+        keyboard: kbdcraft/israfel
         keymap: vial
