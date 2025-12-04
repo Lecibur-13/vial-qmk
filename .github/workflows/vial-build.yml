@@ -1,0 +1,12 @@
+name: Vial Build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: qmk/qmk_firmware@v0.2
+      with:
+        command: compile
+        keyboard: israfel
+        keymap: vial
