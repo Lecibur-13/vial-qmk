@@ -35,5 +35,20 @@ jobs:
       run: |
         git config --global --add safe.directory $(pwd)
         qmk compile -kb israfel -km vial
-
-        
+    - name: List generated files
+      run: |
+        echo "=== Files in .build/ ==="
+        find .build -name "israfel_vial.*" -type f 2>/dev/null || echo "No files found in .build/"
+        echo ""
+        echo "=== Files in root directory ==="
+        ls -lh israfel_vial.* 2>/dev/null || echo "No files found in root"
+    - name: Upload firmware artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: israfel-vial-firmware
+        path: |
+          .build/israfel_vial.*
+          israfel_vial.*
+        if-no-files-found: warn
+        retention-days: 30

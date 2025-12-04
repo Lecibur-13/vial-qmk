@@ -68,6 +68,23 @@ jobs:
           echo "::error::Failed to build israfel:${KEYMAP}"
           exit 1
         fi
+    - name: List generated files
+      run: |
+        echo "=== Files in .build/ ==="
+        find .build -name "israfel_${KEYMAP}.*" -type f 2>/dev/null || echo "No files found in .build/"
+        echo ""
+        echo "=== Files in root directory ==="
+        ls -lh israfel_${KEYMAP}.* 2>/dev/null || echo "No files found in root"
+    - name: Upload firmware artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: israfel-${KEYMAP}-firmware
+        path: |
+          .build/israfel_${KEYMAP}.*
+          israfel_${KEYMAP}.*
+        if-no-files-found: warn
+        retention-days: 30
 
   build-vial:
     name: Build Vial keymaps
@@ -112,3 +129,20 @@ jobs:
           echo "::error::Failed to build israfel:${KEYMAP}"
           exit 1
         fi
+    - name: List generated files
+      run: |
+        echo "=== Files in .build/ ==="
+        find .build -name "israfel_${KEYMAP}.*" -type f 2>/dev/null || echo "No files found in .build/"
+        echo ""
+        echo "=== Files in root directory ==="
+        ls -lh israfel_${KEYMAP}.* 2>/dev/null || echo "No files found in root"
+    - name: Upload firmware artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: israfel-${KEYMAP}-firmware
+        path: |
+          .build/israfel_${KEYMAP}.*
+          israfel_${KEYMAP}.*
+        if-no-files-found: warn
+        retention-days: 30
