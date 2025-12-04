@@ -33,11 +33,31 @@ jobs:
       KEYMAP: default
 
     steps:
-    - name: (actions) Checkout Vial repo
+    - name: (actions) Checkout Vial repo (sparse)
       uses: actions/checkout@v4
       with:
         persist-credentials: false
         submodules: recursive
+        sparse-checkout: |
+          /*
+          !keyboards/*
+          keyboards/israfel
+          quantum/
+          builddefs/
+          lib/
+          platforms/
+          tmk_core/
+          drivers/
+          layouts/
+          users/
+          data/
+          util/
+          modules/
+          Makefile
+          paths.mk
+          *.mk
+          requirements*.txt
+          setup.cfg
 
     - name: Build
       id: build
@@ -71,11 +91,31 @@ jobs:
       KEYMAP: vial
 
     steps:
-    - name: (actions) Checkout Vial repo
+    - name: (actions) Checkout Vial repo (sparse)
       uses: actions/checkout@v4
       with:
         persist-credentials: false
         submodules: recursive
+        sparse-checkout: |
+          /*
+          !keyboards/*
+          keyboards/israfel
+          quantum/
+          builddefs/
+          lib/
+          platforms/
+          tmk_core/
+          drivers/
+          layouts/
+          users/
+          data/
+          util/
+          modules/
+          Makefile
+          paths.mk
+          *.mk
+          requirements*.txt
+          setup.cfg
 
     - name: Build
       id: build

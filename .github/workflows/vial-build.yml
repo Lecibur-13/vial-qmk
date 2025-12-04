@@ -6,11 +6,31 @@ jobs:
     runs-on: ubuntu-latest
     container: ghcr.io/qmk/qmk_cli@sha256:2dc05fc9f32efebd6b05c2b8676ee548358bc7e151e9dbf4dac6b6eed4513b07
     steps:
-    - name: (actions) Checkout Vial repo
+    - name: (actions) Checkout Vial repo (sparse)
       uses: actions/checkout@v4
       with:
         persist-credentials: false
         submodules: recursive
+        sparse-checkout: |
+          /*
+          !keyboards/*
+          keyboards/israfel
+          quantum/
+          builddefs/
+          lib/
+          platforms/
+          tmk_core/
+          drivers/
+          layouts/
+          users/
+          data/
+          util/
+          modules/
+          Makefile
+          paths.mk
+          *.mk
+          requirements*.txt
+          setup.cfg
     - name: Build
       run: |
         git config --global --add safe.directory $(pwd)
