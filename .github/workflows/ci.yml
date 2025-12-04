@@ -79,10 +79,12 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: israfel-${KEYMAP}-firmware
+        name: israfel-${{ env.KEYMAP }}-firmware
         path: |
-          .build/israfel_${KEYMAP}.*
-          israfel_${KEYMAP}.*
+          .build/israfel_${{ env.KEYMAP }}.hex
+          .build/israfel_${{ env.KEYMAP }}.uf2
+          israfel_${{ env.KEYMAP }}.hex
+          israfel_${{ env.KEYMAP }}.uf2
         if-no-files-found: warn
         retention-days: 30
 
@@ -140,9 +142,11 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: israfel-${KEYMAP}-firmware
+        name: israfel-${{ env.KEYMAP }}-firmware
         path: |
-          .build/israfel_${KEYMAP}.*
-          israfel_${KEYMAP}.*
+          .build/israfel_${{ env.KEYMAP }}.hex
+          .build/israfel_${{ env.KEYMAP }}.uf2
+          israfel_${{ env.KEYMAP }}.hex
+          israfel_${{ env.KEYMAP }}.uf2
         if-no-files-found: warn
         retention-days: 30
